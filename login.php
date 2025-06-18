@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if (!$found) {
-    $error = "Invalid username or password.";
+    $error = "<div class= 'alert alert-danger' role='alert'>Invalid username or password.</div>";
   }
 }
 ?>
