@@ -17,7 +17,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   $confirm_password = $_POST['confirm_password'];
 
 
-  if ($password != $confirm) {
+  if ($password != $confirm_password) {
     echo "<script>alert('Passwords do not match. Please try again.'); window.history.back();</script>";
   } else {
     $line = implode("|", [
