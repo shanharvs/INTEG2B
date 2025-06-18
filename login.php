@@ -1,33 +1,50 @@
+<?php
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  $users = file("user.txt", FILE_IGNORE_NEW_LINES);
+  $found = false;
+
+  foreach ($users as $userLine) {
+    $data = explode("|", $userLine);
+
+    // Check if indexes exist to avoid errors
+    if (isset($data[10], $data[11]) && $data[10] === $username && $data[11] === $password) {
+      $found = true;
+      $_SESSION['user_data'] = $data;
+      header("Location: homepage.php");
+      exit;
+    }
+  }
+
+  if (!$found) {
+    $error = "Invalid username or password.";
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
   <meta charset="utf-8">
-  <title>Portfolio Template</title>
-
-  <!-- mobile responsive meta -->
+  <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <!-- ** Plugins Needed for the Project ** -->
-  <!-- Bootstrap -->
+
+  <!-- Plugins -->
   <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-  <!-- slick slider -->
   <link rel="stylesheet" href="plugins/slick/slick.css">
-  <!-- themefy-icon -->
   <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
-
-  <!-- Main Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
-  
-  <!--Favicon-->
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-  
+
 <header class="navigation fixed-top">
   <nav class="navbar navbar-expand-lg navbar-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
@@ -37,13 +54,13 @@
 
     <div class="collapse navbar-collapse text-center" id="navigation">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="register.php">Registration</a>
+          <a class="nav-link" href="register.php">Register</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="login.php">Log-in</a>
         </li>
       </ul>
@@ -51,7 +68,7 @@
   </nav>
 </header>
 
-<!-- contact -->
+<!-- Login Form -->
 <section class="section section-on-footer" data-background="images/backgrounds/bg-dots.png">
   <div class="container">
     <div class="row">
@@ -61,15 +78,18 @@
       <div class="col-lg-8 mx-auto">
         <div class="bg-white rounded text-center p-5 shadow-down">
           <h4 class="mb-80">Kindly fill up your details</h4>
-          <form action="#" class="row">
+
+         
+
+          <form action="login.php" method="post" class="row">
             <div class="col-md-12">
-              <input type="email" id="email" name="email" placeholder="Email Address" class="form-control px-0 mb-4">
+              <input type="text" id="username" name="username" placeholder="Username" class="form-control px-0 mb-4" required>
             </div>
-              <div class="col-md-12">
-              <input type="password" id="password" name="email" placeholder="Password" class="form-control px-0 mb-4">
+            <div class="col-md-12">
+              <input type="password" id="password" name="password" placeholder="Password" class="form-control px-0 mb-4" required>
             </div>
             <div class="col-lg-6 col-10 mx-auto">
-              <a href="homepage.php" class="btn btn-primary w-100">Log in</a>
+              <input type="submit" name="login" value="Log-in" class="btn btn-primary w-100">
             </div>
           </form>
         </div>
@@ -77,9 +97,8 @@
     </div>
   </div>
 </section>
-<!-- /contact -->
 
-<!-- footer -->
+<!-- Footer -->
 <footer class="bg-dark footer-section">
   <div class="section">
     <div class="container">
@@ -100,18 +119,12 @@
     </div>
   </div>
 </footer>
-<!-- /footer -->
 
-<!-- jQuery -->
+<!-- Scripts -->
 <script src="plugins/jQuery/jquery.min.js"></script>
-<!-- Bootstrap JS -->
 <script src="plugins/bootstrap/bootstrap.min.js"></script>
-<!-- slick slider -->
 <script src="plugins/slick/slick.min.js"></script>
-<!-- filter -->
 <script src="plugins/shuffle/shuffle.min.js"></script>
-
-<!-- Main Script -->
 <script src="js/script.js"></script>
 
 </body>
