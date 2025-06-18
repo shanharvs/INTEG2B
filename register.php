@@ -1,3 +1,42 @@
+<?php
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+  $full_name = $_POST['full_name'];
+  $gender = $_POST['gender'];
+  $dob = $_POST['dob'];
+  $phone = $_POST['phone'];
+  $email = $_POST['email'];
+
+  $street = $_POST['street'];
+  $city = $_POST['city'];
+  $province = $_POST['province'];
+  $zip = $_POST['zip'];
+  $country = $_POST['country'];
+
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $confirm_password = $_POST['confirm_password'];
+
+
+  if ($password != $confirm) {
+    echo "<script>alert('Passwords do not match. Please try again.'); window.history.back();</script>";
+  } else {
+    $line = implode("|", [
+      $full_name, $gender, $dob, $phone, $email,
+      $street, $city, $province, $zip, $country,
+      $username, $password
+    ]) . "\n";
+    file_put_contents("user.txt", $line, FILE_APPEND);
+    
+    echo "<script>
+    alert('Registration successful! Proceeding to login...');
+    window.location.href = 'login.php';
+    </script>";
+  }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -56,7 +95,7 @@
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="register.php">Registration</a>
+          <a class="nav-link" href="register.php">Register</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="login.php">Log-in</a>
@@ -67,79 +106,67 @@
   </header>
 
   <!-- contact -->
-  <section class="section section-on-footer" data-background="images/backgrounds/bg-dots.png">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h2 class="section-title">Registration Form</h2>
-        </div>
-
-        <!-- Personal Information -->
-        <div class="col-lg-8 mx-auto">
-          <div class="bg-white rounded text-center p-5 shadow-down">
-            <h4 class="mb-80">Personal Information</h4>
-            <form action="#" class="row">
-              <div class="col-md-12">
-                <input type="text" name="full_name" placeholder="Full Name" class="form-control px-0 mb-4">
-                <select name="gender" class="form-control px-0 mb-4">
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-                Date of Birth:
-                <input type="date" name="dob" class="form-control px-0 mb-4">
-                <input type="tel" name="phone" placeholder="Phone Number" class="form-control px-0 mb-4">
-                <input type="email" name="email" placeholder="Email" class="form-control px-0 mb-4">
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Address Details -->
-        <div class="col-lg-8 mx-auto">
-          <div class="bg-white rounded text-center p-5 shadow-down">
-            <h4 class="mb-80">Address Details</h4>
-            <form action="#" class="row">
-              <div class="col-md-12">
-                <input type="text" name="street" placeholder="Street" class="form-control px-0 mb-4">
-                <input type="text" name="city" placeholder="City" class="form-control px-0 mb-4">
-                <input type="text" name="province" placeholder="Province/State" class="form-control px-0 mb-4">
-                <input type="text" name="zip" placeholder="Zip Code" class="form-control px-0 mb-4">
-                <input type="text" name="country" placeholder="Country" class="form-control px-0 mb-4">
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Account Details -->
-        <div class="col-lg-8 mx-auto">
-          <div class="bg-white rounded text-center p-5 shadow-down">
-            <h4 class="mb-80">Account Details</h4>
-            <form action="#" class="row">
-              <div class="col-md-12">
-                <input type="text" id="username" name="username" placeholder="Username" class="form-control px-0 mb-4">
-              </div>
-              <div class="col-md-12">
-                <input type="password" id="password" name="password" placeholder="Password" class="form-control px-0 mb-4">
-              </div>
-              <div class="col-md-12">
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"
-                  class="form-control px-0 mb-4">
-              </div>
-              <div class="col-lg-6 col-10 mx-auto">
-            <input type="reset" value="Reset" class="btn btn-light w-100">
-            </div>
-              <div class="col-lg-6 col-10 mx-auto">
-                <a href="login.php" class="btn btn-primary w-100">Log in</a>
-            </div>
-            </form>
-          </div>
-        </div>
-
+ <section class="section section-on-footer" data-background="images/backgrounds/bg-dots.png">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="section-title">Registration Form</h2>
       </div>
+
+      <div class="col-lg-8 mx-auto">
+        <div class="bg-white rounded text-center p-5 shadow-down">
+          <form action="#" method="post" class="row">
+
+            <!-- Personal Information -->
+            <div class="col-md-12">
+              <h4 class="mb-4">Personal Information</h4>
+              <input type="text" name="full_name" placeholder="Full Name" class="form-control px-0 mb-4">
+              <select name="gender" class="form-control px-0 mb-4">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <label>Date of Birth:</label>
+              <input type="date" name="dob" class="form-control px-0 mb-4">
+              <input type="tel" name="phone" placeholder="Phone Number" class="form-control px-0 mb-4">
+              <input type="email" name="email" placeholder="Email" class="form-control px-0 mb-4">
+            </div>
+
+            <!-- Address Details -->
+            <div class="col-md-12 mt-4">
+              <h4 class="mb-4">Address Details</h4>
+              <input type="text" name="street" placeholder="Street" class="form-control px-0 mb-4">
+              <input type="text" name="city" placeholder="City" class="form-control px-0 mb-4">
+              <input type="text" name="province" placeholder="Province/State" class="form-control px-0 mb-4">
+              <input type="text" name="zip" placeholder="Zip Code" class="form-control px-0 mb-4">
+              <input type="text" name="country" placeholder="Country" class="form-control px-0 mb-4">
+            </div>
+
+            <!-- Account Details -->
+            <div class="col-md-12 mt-4">
+              <h4 class="mb-4">Account Details</h4>
+              <input type="text" id="username" name="username" placeholder="Username" class="form-control px-0 mb-4">
+              <input type="password" id="password" name="password" placeholder="Password" class="form-control px-0 mb-4">
+              <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" class="form-control px-0 mb-4">
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-lg-6 col-10 mx-auto">
+              <input type="reset" value="Reset" class="btn btn-light w-100">
+            </div>
+            <div class="col-lg-6 col-10 mx-auto">
+              <input type="submit" name="register" value="Register" class="btn btn-primary w-100">
+            </div>
+
+          </form>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
+
   <!-- /contact -->
 
   <!-- footer -->
