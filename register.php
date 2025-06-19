@@ -1,4 +1,17 @@
 <?php
+
+$full_name = "";
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $full_name = trim($_POST["full_name"]);
+
+  // Regex: Only letters and spaces, 2 to 50 characters
+  if (!preg_match("/^[A-Za-z\s]{2,50}$/", $full_name)) {
+    $message = "<div class='alert alert-danger'>Invalid full name. Only letters and spaces (2–50 characters) allowed.</div>";
+  }
+}
+
 if($_SERVER["REQUEST_METHOD"] == "POST") {
   $full_name = $_POST['full_name'];
   $gender = $_POST['gender'];
