@@ -1,17 +1,4 @@
 <?php
-
-$full_name = "";
-$message = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $full_name = trim($_POST["full_name"]);
-
-  // Regex: Only letters and spaces, 2 to 50 characters
-  if (!preg_match("/^[A-Za-z\s]{2,50}$/", $full_name)) {
-    $message = "<div class='alert alert-danger'>Invalid full name. Only letters and spaces (2–50 characters) allowed.</div>";
-  }
-}
-
 if($_SERVER["REQUEST_METHOD"] == "POST") {
   $full_name = $_POST['full_name'];
   $gender = $_POST['gender'];
@@ -29,25 +16,102 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = $_POST['password'];
   $confirm_password = $_POST['confirm_password'];
 
+  // VALIDATIONS
 
+  // Full name: letters and spaces only, 2–50 chars
+  if (!preg_match("/^[a-zA-Z\s]{2,50}$/", $full_name)) {
+    echo "<script>alert('Full name must be 2-50 characters and contain only letters and spaces.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Gender: required
+  if (empty($gender)) {
+    echo "<script>alert('Please select your gender.'); window.history.back();</script>";
+    exit;
+  }
+
+  // DOB: must be 18 years old or older
+  $dobDate = new DateTime($dob);
+  $today = new DateTime();
+  $age = $today->diff($dobDate)->y;
+  if ($age < 18) {
+    echo "<script>alert('You must be at least 18 years old.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Phone: must be 11 digits, start with 09
+  if (!preg_match("/^09\d{9}$/", $phone)) {
+    echo "<script>alert('Phone number must be 11 digits and start with 09.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Email: basic format check
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "<script>alert('Invalid email format.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Street: common address characters, 5–100 characters
+  if (!preg_match("/^[\w\s.,#-]{5,100}$/", $street)) {
+    echo "<script>alert('Street must be 5-100 characters and may include letters, digits, spaces, comma, period, #, and dash.'); window.history.back();</script>";
+    exit;
+  }
+
+  // City: letters and spaces only, 2–50 characters
+  if (!preg_match("/^[a-zA-Z\s]{2,50}$/", $city)) {
+    echo "<script>alert('City must be 2-50 characters and contain only letters and spaces.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Province: same as city
+  if (!preg_match("/^[a-zA-Z\s]{2,50}$/", $province)) {
+    echo "<script>alert('Province must be 2-50 characters and contain only letters and spaces.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Zip: 4 digits only
+  if (!preg_match("/^\d{4}$/", $zip)) {
+    echo "<script>alert('Zip code must be exactly 4 digits.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Country: letters and spaces only
+  if (!preg_match("/^[a-zA-Z\s]+$/", $country)) {
+    echo "<script>alert('Country must contain only letters and spaces.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Username: 5–20 characters, letters, numbers, underscore
+  if (!preg_match("/^\w{5,20}$/", $username)) {
+    echo "<script>alert('Username must be 5-20 characters and contain only letters, numbers, and underscores.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Password: at least 8 characters, upper, lower, number, special
+  if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/", $password)) {
+    echo "<script>alert('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.'); window.history.back();</script>";
+    exit;
+  }
+
+  // Confirm password
   if ($password != $confirm_password) {
     echo "<script>alert('Passwords do not match. Please try again.'); window.history.back();</script>";
-  } else {
-    $line = implode("|", [
-      $full_name, $gender, $dob, $phone, $email,
-      $street, $city, $province, $zip, $country,
-      $username, $password
-    ]) . "\n";
-    file_put_contents("user.txt", $line, FILE_APPEND);
-    
-    echo "<script>
-    alert('Registration successful! Proceeding to login...');
-    window.location.href = 'login.php';
-    </script>";
+    exit;
   }
+
+  // Save to file
+  $line = implode("|", [
+    $full_name, $gender, $dob, $phone, $email,
+    $street, $city, $province, $zip, $country,
+    $username, $password
+  ]) . "\n";
+  file_put_contents("user.txt", $line, FILE_APPEND);
+  
+  echo "<script>
+  alert('Registration successful! Proceeding to login...');
+  window.location.href = 'login.php';
+  </script>";
 }
-
-
 ?>
 
 <!DOCTYPE html>
