@@ -82,7 +82,7 @@
         </div>
         <div class="col-md-4">
           <h5 class="text-light">Phone</h5>
-          <p class="text-white paragraph-lg font-secondary">0993-960-7466</p>
+          <p class="text-white paragraph-lg font-secondary">0993-123-4567</p>
         </div>
         <div class="col-md-4">
           <h5 class="text-light">Address</h5>
@@ -93,18 +93,6 @@
   </div>
 </footer>
 <!-- /footer -->
-
-<!-- jQuery -->
-<script src="plugins/jQuery/jquery.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="plugins/bootstrap/bootstrap.min.js"></script>
-<!-- slick slider -->
-<script src="plugins/slick/slick.min.js"></script>
-<!-- filter -->
-<script src="plugins/shuffle/shuffle.min.js"></script>
-
-<!-- Main Script -->
-<script src="js/script.js"></script>
 
 </body>
 </html>
