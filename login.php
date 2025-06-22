@@ -1,26 +1,30 @@
 <?php
 session_start();
+
+$error = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
-
-  $users = file("user.txt", FILE_IGNORE_NEW_LINES);
   $found = false;
 
-  foreach ($users as $userLine) {
-    $data = explode("|", $userLine);
+  if (file_exists("user.txt")) {
+    $users = file("user.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-    // Check if indexes exist to avoid errors
-    if (isset($data[10], $data[11]) && $data[10] === $username && $data[11] === $password) {
-      $found = true;
-      $_SESSION['user_data'] = $data;
-      header("Location: homepage.php");
-      exit;
+    foreach ($users as $line) {
+      $data = explode("|", $line);
+
+      if (isset($data[10], $data[11]) && $data[10] === $username && $data[11] === $password) {
+        $_SESSION['user_data'] = $data;
+        $found = true;
+        header("Location: homepage.php");
+        exit;
+      }
     }
   }
 
   if (!$found) {
-    $error = "<div class= 'alert alert-danger' role='alert'>Invalid username or password.</div>";
+    $error = "<div class='alert alert-danger mt-3'>Invalid username or password.</div>";
   }
 }
 ?>
@@ -33,13 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Plugins -->
   <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="plugins/slick/slick.css">
   <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
   <link href="css/style.css" rel="stylesheet">
-
-  <!-- Favicon -->
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 
@@ -77,21 +78,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <div class="col-lg-8 mx-auto">
         <div class="bg-white rounded text-center p-5 shadow-down">
-          <h4 class="mb-80">Kindly fill up your details</h4>
-
-         
+          <h4 class="mb-4">Kindly fill up your details</h4>
 
           <form action="login.php" method="post" class="row">
+            <!-- Error message (if any) -->
+            <div class="col-md-12">
+              <?php if (!empty($error)) echo $error; ?>
+            </div>
+
+            <!-- Username Field -->
             <div class="col-md-12">
               <input type="text" id="username" name="username" placeholder="Username" class="form-control px-0 mb-4" required>
             </div>
+
+            <!-- Password Field -->
             <div class="col-md-12">
               <input type="password" id="password" name="password" placeholder="Password" class="form-control px-0 mb-4" required>
             </div>
+
+            <!-- Submit Button -->
             <div class="col-lg-6 col-10 mx-auto">
               <input type="submit" name="login" value="Log-in" class="btn btn-primary w-100">
             </div>
           </form>
+
         </div>
       </div>
     </div>
@@ -109,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="col-md-4">
           <h5 class="text-light">Phone</h5>
-          <p class="text-white paragraph-lg font-secondary">0906-056-4265</p>
+          <p class="text-white paragraph-lg font-secondary">0993-123-4567</p>
         </div>
         <div class="col-md-4">
           <h5 class="text-light">Address</h5>
@@ -120,12 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 </footer>
 
-<!-- Scripts -->
 <script src="plugins/jQuery/jquery.min.js"></script>
-<script src="plugins/bootstrap/bootstrap.min.js"></script>
-<script src="plugins/slick/slick.min.js"></script>
-<script src="plugins/shuffle/shuffle.min.js"></script>
 <script src="js/script.js"></script>
-
 </body>
 </html>
