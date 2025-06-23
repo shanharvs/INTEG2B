@@ -1,4 +1,5 @@
 <?php
+
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -58,12 +59,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors['confirm_password'] = "Passwords do not match.";
   }
 
+
   if (empty($errors)) {
     $line = implode("|", [
       $full_name, $gender, $dob, $phone, $email,
       $street, $city, $province, $zip, $country,
       $username, $password
     ]) . "\n";
+
+
+    $_SESSION['username'] = $username;
+    $_SESSION['user_data'] = [
+      'full_name' => $full_name,
+      'gender' => $gender,
+      'dob' => $dob,
+      'phone' => $phone,
+      'email' => $email,
+      'street' => $street,
+      'city' => $city,
+      'province' => $province,
+      'zip' => $zip,
+      'country' => $country,
+      'username' => $username,
+    ];
 
     file_put_contents("user.txt", $line, FILE_APPEND);
     header("Location: login.php?registered=1");
