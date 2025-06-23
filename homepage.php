@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_data'])) {
 
   $fullname = $user[0];
   $gender = $user[1];
-  $bob = $user[2];
+  $dob = $user[2];
   $phone = $user[3];
   $email = $user[4];
   $street = $user[5];
@@ -80,27 +80,30 @@ if (!isset($_SESSION['user_data'])) {
         <div class="row">
           <div class="col-12 text-center">
             <h1 class="text-white font-tertiary">Welcome, <?php echo $username?>!</h1>
-
-            <div class="col-lg-8 mx-auto">
-              <div class="bg-white rounded text-center p-5 shadow-down">
-                <h4 class="mb-4">Personal Information</h4>
-                <p class="message-control px-0 mb-4">Name: <?php echo $fullname; ?></p>
-                <p class="message-control px-0 mb-4">Gender: <?php echo $gender; ?></p>
-                <p class="message-control px-0 mb-4">Date of Birth: <?php echo $bob; ?></p>
-                <p class="message-control px-0 mb-4">Phone: <?php echo $phone; ?></p>
-                <p class="message-control px-0 mb-4">Email: <?php echo $email; ?></p>
-                <p class="message-control px-0 mb-4">Street: <?php echo $street; ?></p>
-                <p class="message-control px-0 mb-4">City: <?php echo $city; ?></p>
-                <p class="message-control px-0 mb-4">Province: <?php echo $province ?></p>
-                <p class="message-control px-0 mb-4">ZIP: <?php echo $zip; ?></p>
-                <p class="message-control px-0 mb-4">Country: <?php echo $country; ?></p>
-                <p class="message-control px-0 mb-4">Username: <?php echo $username; ?></p>
-              </div>
-            </div>
-
           </div>
         </div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="bg-white rounded text-center p-4 shadow-down">
+        <h4 class="mb-4">Personal Information</h4>
+        <div class="message-control px-0 mb-4"><b>Name:</b> <?php echo $fullname; ?></div>
+        <div class="message-control px-0 mb-4"><b>Gender:</b> <?php echo $gender; ?></div>
+        <div class="message-control px-0 mb-4"><b>Date of Birth:</b> <?php echo $dob; ?></div>
+        <div class="message-control px-0 mb-4"><b>Phone:</b> <?php echo $phone; ?></div>
+        <div class="message-control px-0 mb-4"><b>Email:</b> <?php echo $email; ?></div>
+        <div class="message-control px-0 mb-4"><b>Street:</b> <?php echo $street; ?></div>
+        <div class="message-control px-0 mb-4"><b>City:</b> <?php echo $city; ?></div>
+        <div class="message-control px-0 mb-4"><b>Province:</b> <?php echo $province; ?></div>
+        <div class="message-control px-0 mb-4"><b>ZIP:</b> <?php echo $zip; ?></div>
+        <div class="message-control px-0 mb-4"><b>Country:</b> <?php echo $country; ?></div>
+        <div class="message-control px-0 mb-4"><b>Username:</b> <?php echo $username; ?></div>
       </div>
+    </div>
+  </div>
+</div>
+
     </section>
 
     <!-- footer -->
