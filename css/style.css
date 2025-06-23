@@ -1,12 +1,3 @@
-/*!------------------------------------------------------------------
-[MAIN STYLESHEET]
-
-PROJECT:	Project Name
-VERSION:	Versoin Number
--------------------------------------------------------------------*/
-/*------------------------------------------------------------------
-[TABLE OF CONTENTS]
--------------------------------------------------------------------*/
 /*  typography */
 @import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:300,400,500,700");
 @font-face {
@@ -400,6 +391,29 @@ a:hover {
   outline: 0;
   box-shadow: none !important;
 }
+
+
+.message-control {
+  background-color: #f7f7fb;
+  border: 1px solid #d0d0d0;
+  border-radius: 12px;
+  padding: 24px 28px;
+  font-size: 20px !important;
+  font-weight: 600;
+  color: #222;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+.message-control:focus {
+  border-color: transparent;
+  outline: 0;
+  box-shadow: none !important;
+}
+
 
 textarea.form-control {
   height: 120px;
@@ -906,5 +920,3 @@ blockquote {
 .filter-controls li.active {
   font-weight: bold;
 }
-
-/*# sourceMappingURL=maps/style.css.map */
